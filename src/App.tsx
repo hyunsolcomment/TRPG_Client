@@ -1,8 +1,17 @@
+import { HashRouter,Routes, Route } from 'react-router-dom';
+import Connecting from './comp/Connecting';
+import Home from './comp/Home';
+import InGame from './comp/InGame';
+
 function App() {
   return (
-    <div className="App">
-      TRPG 클라이언트
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/connecting" element={<Connecting />}/>
+        <Route path="/inGame" element={<InGame />}/>
+      </Routes>
+    </HashRouter>
   );
 }
 
