@@ -8,7 +8,7 @@ enum ConnectType {
 }
 export default function ServerItem({ ip } : {ip: string}) {
     const [title, setTitle] = useState<string>();
-    const [connectType, setConnectType] = useState<ConnectType>();
+    const [connectType, setConnectType] = useState<ConnectType>(ConnectType.CONNECTING);
 
     useEffect(() => {
         connectServer();    
