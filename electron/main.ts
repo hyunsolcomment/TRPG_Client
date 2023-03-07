@@ -6,7 +6,7 @@ function createWindow() {
     width: 800,
     height: 700,
     webPreferences: {
-      // contextIsolation: false,
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
@@ -17,7 +17,7 @@ function createWindow() {
     // 'build/index.html'
     win.loadURL(`file://${__dirname}/../index.html`);
   } else {
-    win.loadURL('http://localhost:3000/index.html');
+    win.loadURL('http://localhost:3001/index.html');
 
     win.webContents.openDevTools();
   }

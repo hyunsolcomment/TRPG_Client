@@ -28,8 +28,8 @@
     "web-vitals": "^3.1.1"
   },
   "scripts": {
-    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://127.0.0.1:3000 && npm run electron:watch\"",
-    "start-react": "react-scripts start",
+    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://127.0.0.1:3001 && npm run electron:watch\"",
+    "start-react": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "postinstall": "electron-builder install-app-deps",

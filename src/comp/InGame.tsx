@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import IPlayer from '../types/IPlayer';
+import IProfile from '../types/IProfile';
 
 function sendChat(message: string) {
 
@@ -11,7 +11,7 @@ export default function InGame() {
     const { state } = useLocation();
     const [chatInput, setChatInput] = useState<string>();
     const [chats, setChats] = useState<{ name: string, image: string, message: string }[]>();
-    const [players, setPlayers] = useState<IPlayer[]>();
+    const [players, setPlayers] = useState<IProfile[]>();
 
     useEffect(() => {
         if(state.ip) reloadPlayers();
