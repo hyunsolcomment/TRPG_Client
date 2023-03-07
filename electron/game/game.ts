@@ -2,11 +2,10 @@ import path from 'path';
 import os from 'os';
 import { existFile } from '../lib/folder';
 import fs from 'fs/promises';
-import IProfile from '../types/IProfile';
 import Server from './server';
 
 class Game {
-    private static profile: IProfile | undefined;
+    private static userName: string;
 
     static getFolder() {
         return path.join(os.userInfo().homedir, "Appdata", "Local", "TRPG");
@@ -37,38 +36,36 @@ class Game {
         // 서버주소 불러오기
         await Server.load();
 
-        // 프로필 불러오기 
+        // 이름 불러오기
         let profileStr = await fs.readFile(Game.getFolder()+"/profile.json", 'utf-8');
-        Game.profile = JSON.parse(profileStr);
-        console.log("프로필을 불러왔습니다.");
+        Game.setName(JSON.parse(profileStr)["user-name"]);
     }
 
-    static async setProfile(profile: IProfile) {
-        Game.profile = {...profile};
+    /**
+     * 모든 정보를 저장합니다
+     */
+    static async save() {
+
+        // 서버주소 저장하기
+        await Server.save();
+
+        // 이름 저장하기
+        await fs.writeFile(Game.getFolder()+"/profile.json", JSON.stringify(Game.userName));
+        console.log("다 저장함");
     }
 
-    static getProfile() {
-        return {...Game.profile};
+    static async saveProfile(name: string) {
+        Game.userName = name;
+        await fs.writeFile(Game.getFolder()+"/profile.json", JSON.stringify(Game.userName));
+        console.log("프로필 설정을 저장했어요.");
     }
 
-    static async copyProfileImage(image: string) {
-        const filename  = image.slice(image.lastIndexOf("\\")+1, image.length);
-        console.log(`${filename}`);
-
-        await fs.copyFile(image, Game.getFolder()+"/images"+filename);
+    static getName() {
+        return Game.userName;
     }
 
-    static async getProfileImages(): Promise<string[]> {
-        let files = (await fs.readdir(Game.getFolder()+"/images", { withFileTypes: true})).filter(dirant => {
-            if(dirant.isFile()) {
-                const ext = dirant.name.slice(dirant.name.lastIndexOf(".")+1, dirant.name.length);
-
-                // 이미지 파일만 거르기
-                return ["png","jpg"].includes(ext);
-            }
-        });
-
-        return files.map(file => file.name);
+    static setName(name: string) {
+        Game.userName = name;
     }
 }
 

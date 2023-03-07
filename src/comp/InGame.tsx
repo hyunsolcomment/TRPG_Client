@@ -41,6 +41,10 @@ export default function InGame() {
 
     return (
         <div className="in-game">
+            <div>
+                연결된 IP: { state.ip }
+            </div>
+            
             <div className="players">
                 <table>
                     <tbody>

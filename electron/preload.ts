@@ -1,7 +1,6 @@
 import { contextBridge } from "electron";
 import Game from "./game/game";
 import Server from "./game/server";
-import IProfile from "./types/IProfile";
 
 contextBridge.exposeInMainWorld('api', {
     /**
@@ -10,14 +9,14 @@ contextBridge.exposeInMainWorld('api', {
     init: async () => await Game.init(),
 
     /**
-     * 프로필 사진 설정
+     * 유저 이름 설정
      */
-    setProfile: async (profile: IProfile) => await Game.setProfile(profile),
+    setName: (name: string) => Game.setName(name),
 
     /**
-     * 현재 프로필 사진 이름 반환
+     * 유저 이름 반환
      */
-    getProfile: () => Game.getProfile(),
+    getName: () => Game.getName(),
 
     /**
      * 서버주소 반환
@@ -25,12 +24,12 @@ contextBridge.exposeInMainWorld('api', {
     getServers: () => Server.get(),
 
     /**
-     * 특정 경로의 이미지를 프로필 이미지 전용 폴더로 복사
+     * 전체 저장
      */
-    copyImage: async (imagePath: string) => await Game.copyProfileImage(imagePath),
+    save: async () => await Game.save(),
 
     /**
-     * 프로필 이미지 전용 폴더에 있는 이미지들의 이름을 반환
+     * 프로필 저장
      */
-    getProfileImages: async () => await Game.getProfileImages()
+    saveProfile: async (name: string) => await Game.saveProfile(name)
 });
